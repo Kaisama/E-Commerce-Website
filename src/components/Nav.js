@@ -2,6 +2,9 @@ import React from 'react'
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components'
 import {FiShoppingCart} from 'react-icons/fi'
+
+
+
 const Nav = () => {
     const Nav=styled.nav`
     .navbar-lists {
@@ -76,32 +79,11 @@ const Nav = () => {
         padding: 0.8rem 1.4rem;
       }
   
-     ${'' /* @media (max-width: ${({ theme }) => theme.media.mobile}) {
-        .mobile-navbar-btn {
-          display: inline-block;
-          z-index: 9999;
-          border: ${({ theme }) => theme.colors.black};
+   
+        
+    
   
-          .mobile-nav-icon {
-            font-size: 4.2rem;
-            color: ${({ theme }) => theme.colors.black};
-          }
-        }
-    */}
-  
-        .active .mobile-nav-icon {
-          display: none;
-          font-size: 4.2rem;
-          position: absolute;
-          top: 30%;
-          right: 10%;
-          color: ${({ theme }) => theme.colors.black};
-          z-index: 9999;
-        }
-  
-        .active .close-outline {
-          display: inline-block;
-        }
+        
   
         .navbar-list {
           width: 100vw;
@@ -123,7 +105,7 @@ const Nav = () => {
           transition: all 3s linear;
         }
   
-        .active .navbar-lists {
+        .active .navbar-list {
           visibility: visible;
           opacity: 1;
           transform: translateX(0);
@@ -159,7 +141,7 @@ const Nav = () => {
     `;
   return (
     <Nav>
-        <div className='navbar'>
+        <div className='navbar active'>
                 <ul className="navbar-lists">
                     <li><NavLink to='/' className='navbar-link home-link '>Home</NavLink></li>
                     <li><NavLink to='/about' className='navbar-link '>About</NavLink></li>
