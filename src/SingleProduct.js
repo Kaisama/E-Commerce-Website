@@ -2,6 +2,12 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useProductContext } from "./context/productcontext";
+import PageNavigation from "./components/PageNavigation";
+import { Container } from "./styles/Container";
+import MyImage from "./components/MyImage";
+import { TbTruckDelivery } from "react-icons/tb";
+import Star from "./components/Star";
+import AddToCart from "./components/AddToCart";
 
 const API="https://api.pujakaitem.com/api/products"
 
@@ -9,12 +15,48 @@ const SingleProduct=()=>{
   const{getSingleProduct,isSingleLoading,singleProduct}=useProductContext();
   const {id}=useParams();
 
-  const{id:alias,name,comapny,price,description,category,stock,stars,reviews}=singleProduct;
+  const{id:alias,name,comapny,price,description,category,stock,stars,reviews,image}=singleProduct;
+
   useEffect(()=>{
     getSingleProduct(`${API}?id=${id}`);
-  },[])
+  },[]);
+
+  if(isSingleLoading){
+    return<div className="page_loading">Loading.....</div>
+  }
+
   return (
-   <h1>Single {name}</h1>
+   <Wrapper>
+    <PageNavigation title={name}/>
+    <Container className="container">
+      <div className="grid grid-two-column">
+        {/*PRoduct Images*/}
+        <div className="product_images">
+        <MyImage imgs={image}/>
+        </div>
+        {/*Product data */}
+        <div className="product_data">
+          <h2>{name}</h2> 
+          <Star stars={stars} reviews={reviews}/>
+          <p>{reviews} reviews</p>
+          <p className="product-data-price">
+            MRP:<del>${price}</del>
+          </p>
+          <p className="product-data-price product-data-real-price">
+            Deal of the Day:{price} 
+          </p>
+          <p>{description}</p>
+          <div className="product-data-info">
+            <p>Available:
+              <span>{stock>0?"In Stock" : "Not Available"}</span></p>
+          </div>
+          <hr/>
+          {stock >0 && <AddToCart product={singleProduct}/>}
+         </div>
+      </div>
+
+    </Container>
+   </Wrapper>
   );
 
 }
@@ -22,6 +64,21 @@ const SingleProduct=()=>{
 const Wrapper = styled.section`
   .container {
     padding: 9rem 0;
+  }
+  .grid {
+    display: grid;
+    gap: 9rem;
+  }
+  
+  .grid-two-column {
+    grid-template-columns: repeat(2, 1fr);
+  
+  }
+  p, button {
+    color: ${({ theme }) => theme.colors.text};
+    font-size: 1.65rem;
+    line-height: 1.5;
+    font-weight:400;
   }
   .product-data {
     display: flex;
@@ -87,9 +144,7 @@ const Wrapper = styled.section`
     align-items: center;
   }
 
-  @media (max-width: ${({ theme }) => theme.media.mobile}) {
-    padding: 0 2.4rem;
-  }
+  
 `;
 
 export default SingleProduct;
